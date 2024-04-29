@@ -10,6 +10,10 @@ Initialize variable DB_NAME with string that is the name of the database.
 
 Initialize variable RANDOM_KEY with string of your choice.
 
+# Images folder
+
+Create a images folder with name "images".
+
 # Run backend
 
 Run `npm install` then `npm start`.
