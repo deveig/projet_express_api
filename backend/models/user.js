@@ -30,8 +30,8 @@ const noInjection = function (value) {
 
 
 const userSchema = mongoose.Schema({
-  email: { type: String, required: [true, "Your email must be in the form example@example.com"], match: [/\w+@\w+\.\w+/, "Your email must be in the form example@example.com"], validate: { validator: noInjection, message: "Votre email doit être sous la forme exemple@exemple.com" }, unique: true , uniqueCaseInsensitive: true },
-  password: { type: String, required: [true, ], validate: { validator: passwordValidator, message: "Your password must contain at least one number, one special character (:,@,!,_), one uppercase, and one lowercase" } }, 
+  email: { type: String, required: [true, "Your email must be in the form example@example.com"], match: [/\w+@\w+\.\w+/, "Your email must be in the form example@example.com"], validate: { validator: noInjection, message: "Your email must be in the form example@example.com" }, unique: true , uniqueCaseInsensitive: true },
+  password: { type: String, required: [true, ], validate: { validator: passwordValidator, message: "Your password must contain 8 caracters with at least one number, one special character (:,@,!,_), one uppercase, and one lowercase" } }, 
 });
 
 userSchema.plugin(uniqueValidator, { message: "Syntax error" }); 

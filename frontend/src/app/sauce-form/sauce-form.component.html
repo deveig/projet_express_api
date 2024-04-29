@@ -17,6 +17,7 @@
     <button mat-raised-button color="primary" (click)="imageInput.click()">ADD IMAGE</button>
     <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
   </div>
+  <p>Only PNG or JPEG files.</p>
   <div class="form-group">
     <label for="main-pepper">Main Pepper Ingredient</label>
     <input type="text" class="form-control" id="main-pepper" formControlName="mainPepper">
