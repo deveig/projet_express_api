@@ -1,0 +1,42 @@
+name: Javascript app
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  backend-check-code:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./backend
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        version: '24'
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+    - run: npm install
+    - run: npm run build --if-present
+  frontend-check-code:
+      runs-on: ubuntu-latest
+      defaults:
+        run:
+          shell: bash
+          working-directory: ./frontend
+      steps:
+        - name: Check out repository code
+          uses: actions/checkout@v5
+        - name: Set up Node
+          uses: actions/setup-node@v4
+          with:
+            version: '24'
+            cache: 'npm'
+            cache-dependency-path: frontend/package-lock.json
+        - run: npm install
+        - run: npm run build --if-present
+        with:
+          push: true
+          tags: doc12mp/mysql_app:js_nginx
+          context: "{{defaultContext}}:front/nginx"
