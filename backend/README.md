@@ -19,3 +19,5 @@ Create a images folder with name "images".
 ## Run backend
 
 Run `npm install` then `npm start`.
+
+## GithubActions
