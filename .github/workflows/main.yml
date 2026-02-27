@@ -19,6 +19,24 @@ jobs:
         cache-dependency-path: backend/package-lock.json
     - run: npm install
     - run: npm run build --if-present
+  backend-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Build x
+        uses: docker/setup-buildx-action@v3
+      - name: Build and push app
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: doc12mp/mysql_app:security_back
+          context: "{{defaultContext}}:backend"
   frontend-check-code:
       runs-on: ubuntu-latest
       defaults:
@@ -36,7 +54,21 @@ jobs:
             cache-dependency-path: frontend/package-lock.json
         - run: npm install
         - run: npm run build --if-present
+  frontend-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Build x
+        uses: docker/setup-buildx-action@v3
+      - name: Build and push
+        uses: docker/build-push-action@v6
         with:
           push: true
-          tags: doc12mp/mysql_app:js_nginx
-          context: "{{defaultContext}}:front/nginx"
+          tags: doc12mp/mysql_app:security_front
+          context: "{{defaultContext}}:frontend"
