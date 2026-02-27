@@ -12,6 +12,8 @@ import {
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app-routes';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './app/interceptors/auth-interceptor';
 
 if (environment.production) {
   enableProdMode();
@@ -24,5 +26,6 @@ bootstrapApplication(AppComponent, {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
+    provideHttpClient(withInterceptors([authInterceptor]))
   ],
 }).catch((err) => console.error(err));
