@@ -20,4 +20,4 @@ Create a images folder with name "images".
 
 Run `npm install` then `npm start`.
 
-## GithubActions
+## GithubActions and Docker
