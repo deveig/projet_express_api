@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:24
 ARG PORT
 ARG DB_KEY
 # ARG DB_NAME
