@@ -13,7 +13,7 @@ import { fileURLToPath } from 'url';
 import { config } from 'dotenv';
 config();
 const  access = process.env.DB_KEY;
-const database = process.env.DB_NAME;
+// const database = process.env.DB_NAME;
 
 import { connect } from 'mongoose';
 
@@ -21,7 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /* Connecting to the database */
-connect(`${access}`, { dbName: database })
+connect(`${access}`)
   .then(() => { 
     console.log('Connexion à MongoDB réussie !');
   })

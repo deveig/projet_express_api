@@ -37,6 +37,10 @@ jobs:
           push: true
           tags: doc12mp/mysql_app:security_back
           context: "{{defaultContext}}:backend"
+          build-args: |
+            PORT=${{ secrets.PORT }}
+            DB_KEY=${{ secrets.DB_KEY }}
+            RANDOM_KEY=${{ secrets.RANDOM_KEY }}
   frontend-check-code:
       runs-on: ubuntu-latest
       defaults:
