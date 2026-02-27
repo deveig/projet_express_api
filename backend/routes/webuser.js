@@ -1,13 +1,13 @@
-const express = require('express');
-
+import express from 'express';
+ 
 const router = express.Router();
 
-const userAccess = require('../controllers/webuser');
+import { signup, login } from '../controllers/webuser.js';
 
 /* Create an account */
-router.post('/signup', userAccess.signup);
+router.post('/signup', signup);
 
 /* Connection */
-router.post('/login', userAccess.login);
+router.post('/login', login);
 
-module.exports = router;
+export default router;

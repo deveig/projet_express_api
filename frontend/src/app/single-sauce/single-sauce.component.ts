@@ -4,8 +4,11 @@ import { SaucesService } from '../services/sauces.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { catchError, EMPTY, map, Observable, of, switchMap, take, tap } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [AsyncPipe],// MatProgressSprinnerModule; MatButtonModule
   selector: 'app-single-sauce',
   templateUrl: './single-sauce.component.html',
   styleUrls: ['./single-sauce.component.scss']

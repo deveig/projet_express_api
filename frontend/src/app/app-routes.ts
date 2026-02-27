@@ -7,7 +7,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './services/auth-guard.service';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
   { path: 'sauces', component: SauceListComponent, canActivate: [AuthGuard] },
@@ -18,9 +18,9 @@ const routes: Routes = [
   { path: '**', redirectTo: 'sauces' }
 ];
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-  providers: [AuthGuard]
-})
-export class AppRoutingModule { }
+// @NgModule({
+//   imports: [RouterModule.forRoot(routes)],
+//   exports: [RouterModule],
+//   providers: [AuthGuard]
+// })
+// export class AppRoutingModule { }

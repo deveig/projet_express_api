@@ -1,24 +1,27 @@
-const express = require('express');
+import express, { json } from 'express';
 
 const app = express();
 
-const helmet = require('helmet');
+import helmet from 'helmet';
 
-const webUser = require('./routes/webuser');
+import webUser from './routes/webuser.js';
 
-const sauce = require('./routes/sauce');
+import sauce from './routes/sauce.js';
 
-const path = require('path');
-
-const dotenv = require('dotenv');
-dotenv.config();
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { config } from 'dotenv';
+config();
 const  access = process.env.DB_KEY;
 const database = process.env.DB_NAME;
 
-const mongoose = require('mongoose');
+import { connect } from 'mongoose';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /* Connecting to the database */
-mongoose.connect(`${access}`, { dbName: database })
+connect(`${access}`, { dbName: database })
   .then(() => { 
     console.log('Connexion à MongoDB réussie !');
   })
@@ -43,7 +46,7 @@ app.use((req, res, next) => {
 });
 
 /* Acquiring Query Body Data in JSON Format */
-app.use(express.json());
+app.use(json());
 
 /* User login */
 app.use('/api/auth', webUser);
@@ -59,4 +62,4 @@ app.use((error, req, res, next) => {
   res.status(500).json({ error });
 });
 
-module.exports = app;
+export default app;

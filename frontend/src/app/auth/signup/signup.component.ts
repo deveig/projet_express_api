@@ -1,13 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { catchError, EMPTY, switchMap, tap } from 'rxjs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
+  standalone: true,
   selector: 'app-signup',
+  imports: [ReactiveFormsModule],//MatProgressSpinnerModule, MatButtonModule,
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
+  
 })
 export class SignupComponent implements OnInit {
 

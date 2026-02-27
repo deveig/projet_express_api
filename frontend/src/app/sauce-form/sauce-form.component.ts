@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SaucesService } from '../services/sauces.service';
 import { Sauce } from '../models/Sauce.model';
 import { AuthService } from '../services/auth.service';
 import { catchError, EMPTY, switchMap, tap } from 'rxjs';
+import { MatProgressSpinner, MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
+  standalone: true,
   selector: 'app-sauce-form',
+  imports: [ReactiveFormsModule], //MatProgressSpinnerModule, MatButtonModule
   templateUrl: './sauce-form.component.html',
   styleUrls: ['./sauce-form.component.scss']
 })

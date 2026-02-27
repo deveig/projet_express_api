@@ -3,20 +3,25 @@ import { SaucesService } from '../services/sauces.service';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { Sauce } from '../models/Sauce.model';
 import { Router } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-sauce-list',
+  imports: [AsyncPipe, UpperCasePipe],//MatProgressSpinnerModule,
   templateUrl: './sauce-list.component.html',
-  styleUrls: ['./sauce-list.component.scss']
+  styleUrls: ['./sauce-list.component.scss'],
 })
 export class SauceListComponent implements OnInit {
-
   sauces$!: Observable<Sauce[]>;
   loading!: boolean;
   errorMsg!: string;
 
-  constructor(private sauce: SaucesService,
-              private router: Router) { }
+  constructor(
+    private sauce: SaucesService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.loading = true;
@@ -25,11 +30,11 @@ export class SauceListComponent implements OnInit {
         this.loading = false;
         this.errorMsg = '';
       }),
-      catchError(error => {
+      catchError((error) => {
         this.errorMsg = JSON.stringify(error);
         this.loading = false;
         return of([]);
-      })
+      }),
     );
     this.sauce.getSauces();
   }
@@ -37,5 +42,4 @@ export class SauceListComponent implements OnInit {
   onClickSauce(id: string) {
     this.router.navigate(['sauce', id]);
   }
-
 }

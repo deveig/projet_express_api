@@ -1,9 +1,9 @@
-const http = require('http');
+import { createServer } from 'http';
 
-const app = require('./app');
+import app from './app.js';
 
-const dotenv = require('dotenv');
-dotenv.config();
+import { config } from 'dotenv';
+config();
 
 /**
  * Return port value in number
@@ -50,7 +50,7 @@ const errorHandler = error => {
   }
 };
 
-const server = http.createServer(app);
+const server = createServer(app);
 
 server.on('error', errorHandler);
 server.on('listening', () => {

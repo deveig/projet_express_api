@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { catchError, EMPTY, tap } from 'rxjs';
+import {MatButtonModule} from '@angular/material/button';
+import {  MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
+  standalone: true,
   selector: 'app-login',
+  imports: [ReactiveFormsModule],//MatButtonModule, MatProgressSpinnerModule
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
 

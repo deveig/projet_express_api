@@ -1,31 +1,31 @@
-const express = require('express');
+import express from 'express';
 
 const router = express.Router();
 
-const authentification = require('../middleware/authentification');
+import authentification from '../middleware/authentification.js';
 
-const image = require('../middleware/multer-config');
+import image from '../middleware/multer-config.js';
 
-const sauceManagement = require('../controllers/sauce');
+import { getAllSauces, getOneSauce, addSauce, changeSauce, deleteSauce, likeSauce } from '../controllers/sauce.js';
 
-const deleteImage = require('../middleware/images-file-system');
+import deleteImage from '../middleware/images-file-system.js';
 
 /* Show sauces */
-router.get('/', authentification, sauceManagement.getAllSauces);
+router.get('/', authentification, getAllSauces);
 
 /* Show selected sauce */
-router.get('/:id', authentification, sauceManagement.getOneSauce);
+router.get('/:id', authentification, getOneSauce);
 
 /* Add a sauce */
-router.post('/', authentification, image, sauceManagement.addSauce);
+router.post('/', authentification, image, addSauce);
 
 /* Modify a sauce */
-router.put('/:id', authentification, image, sauceManagement.changeSauce, deleteImage);
+router.put('/:id', authentification, image, changeSauce, deleteImage);
 
 /* Delete a sauce */
-router.delete('/:id', authentification, sauceManagement.deleteSauce, deleteImage);
+router.delete('/:id', authentification, deleteSauce, deleteImage);
 
 /* Like or dislike a sauce */
-router.post('/:id/like', authentification, sauceManagement.likeSauce);
+router.post('/:id/like', authentification, likeSauce);
 
-module.exports = router;
+export default router;

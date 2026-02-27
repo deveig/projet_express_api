@@ -1,14 +1,27 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
-<ng-container *ngIf="sauces$ | async as sauces">
-  <p *ngIf="!loading && sauces.length <= 0">
-    No sauces to display!
-  </p>
-  <p class="list-title" *ngIf="!loading && sauces.length > 0">THE SAUCES</p>
-  <div class="sauce-list" *ngIf="!loading && sauces.length  > 0">
-    <div class="sauce-list-item" *ngFor="let sauce of sauces" (click)="onClickSauce(sauce._id)">
-      <img alt="Hot sauce bottle" [src]="sauce.imageUrl">
-      <h4>{{ sauce.name | uppercase }}</h4>
-      <p>Heat: {{ sauce.heat }}/10</p>
-    </div>
-  </div>
-</ng-container>
+@if(loading){
+  <!-- <mat-spinner></mat-spinner> -->
+   <p>Loading sauces...</p>
+}
+@if(sauces$ | async; as sauces){
+  <ng-container>
+    @if(!loading && sauces.length <= 0){
+      <p>
+        No sauces to display!
+      </p>
+    }
+    @if(!loading && sauces.length > 0){
+      <p class="list-title">THE SAUCES</p>
+    }
+    @if(!loading && sauces.length > 0){
+      <div class="sauce-list">
+        @for(sauce of sauces; track sauce._id){
+          <div class="sauce-list-item" (click)="onClickSauce(sauce._id)">
+            <img alt="Hot sauce bottle" [src]="sauce.imageUrl">
+            <h4>{{ sauce.name | uppercase }}</h4>
+            <p>Heat: {{ sauce.heat }}/10</p>
+          </div>
+        }
+      </div>
+    }
+  </ng-container>
+}

@@ -95,10 +95,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "hot-takes:build:production"
+              "buildTarget": "hot-takes:build:production"
             },
             "development": {
-              "browserTarget": "hot-takes:build:development"
+              "buildTarget": "hot-takes:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -106,7 +106,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "hot-takes:build"
+            "buildTarget": "hot-takes:build"
           }
         },
         "test": {
@@ -130,6 +130,5 @@
         }
       }
     }
-  },
-  "defaultProject": "hot-takes"
+  }
 }

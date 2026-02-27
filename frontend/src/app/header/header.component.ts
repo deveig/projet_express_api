@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Observable, shareReplay } from 'rxjs';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-header',
+  imports: [RouterLink, RouterLinkActive, AsyncPipe],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
