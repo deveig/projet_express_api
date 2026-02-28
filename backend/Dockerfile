@@ -15,4 +15,5 @@ RUN echo "PORT=$PORT" >> .env
 RUN echo "DB_KEY=$DB_KEY" >> .env
 RUN echo "RANDOM_KEY=$RANDOM_KEY" >> .env
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+RUN npm run build
+CMD ["node", "server-build.js"]

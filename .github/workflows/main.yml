@@ -70,9 +70,15 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Build x
         uses: docker/setup-buildx-action@v3
-      - name: Build and push
+      - name: Build and push frontend
         uses: docker/build-push-action@v6
         with:
           push: true
           tags: doc12mp/mysql_app:security_front
           context: "{{defaultContext}}:frontend"
+      - name: Build and push nginx
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: doc12mp/mysql_app:security_nginx
+          context: "{{defaultContext}}:frontend/nginx"
