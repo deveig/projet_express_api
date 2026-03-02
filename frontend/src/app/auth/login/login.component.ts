@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { catchError, EMPTY, tap } from 'rxjs';
 import {MatButtonModule} from '@angular/material/button';
 import {  MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -9,7 +9,7 @@ import {  MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [ReactiveFormsModule],//MatButtonModule, MatProgressSpinnerModule
+  imports: [ReactiveFormsModule, RouterLink],//MatButtonModule, MatProgressSpinnerModule
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
