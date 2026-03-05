@@ -3,14 +3,14 @@
     <ul>
       <li>
         @if(isAuth$ | async){
-          <a routerLink="sauces" routerLinkActive="active">
+          <a routerLink="recipe-security/sauces" routerLinkActive="active">
             ALL SAUCES
           </a>
         }
       </li>
       <li>
         @if(isAuth$ | async){
-          <a routerLink="new-sauce" routerLinkActive="active">
+          <a routerLink="recipe-security/new-sauce" routerLinkActive="active">
             ADD SAUCE
           </a>
         }
@@ -34,14 +34,14 @@
     <ul>
       <li>
         @if(!(isAuth$ | async)){
-          <a routerLink="signup" routerLinkActive="active">
+          <a routerLink="recipe-security/signup" routerLinkActive="active">
             SIGN UP
           </a>
         }
       </li>
       <li>
         @if(!(isAuth$ | async)){
-          <a routerLink="login" routerLinkActive="active">
+          <a routerLink="recipe-security/login" routerLinkActive="active">
             LOGIN
           </a>
         }

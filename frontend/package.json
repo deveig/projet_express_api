@@ -4,9 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test --browsers=ChromeHeadless --watch=false",
+    "serve:ssr:hot-takes": "node dist/hot-takes/server/server.mjs"
   },
   "private": true,
   "dependencies": {
@@ -19,7 +20,9 @@
     "@angular/material": "~21.2.0",
     "@angular/platform-browser": "~21.2.0",
     "@angular/platform-browser-dynamic": "~21.2.0",
+    "@angular/platform-server": "^21.2.1",
     "@angular/router": "~21.2.0",
+    "@angular/ssr": "^21.2.1",
     "bootstrap": "^5.3.8",
     "rxjs": "~7.8.2",
     "tslib": "^2.8.1",

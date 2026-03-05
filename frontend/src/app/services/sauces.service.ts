@@ -17,7 +17,7 @@ export class SaucesService {
 
   getSauces() {
     this.http
-      .get<Sauce[]>('http://localhost:3000/api/sauces')
+      .get<Sauce[]>('/recipe-security/api/sauces')
       .pipe(
         tap((sauces) => this.sauces$.next(sauces)),
         catchError((error) => {
@@ -29,7 +29,7 @@ export class SaucesService {
   }
 
   getSauceById(id: string) {
-    return this.http.get<Sauce>('http://localhost:3000/api/sauces/' + id).pipe(
+    return this.http.get<Sauce>('/recipe-security/api/sauces/' + id).pipe(
       catchError((error) => {
         throw error.error.message;
       }),
@@ -40,7 +40,7 @@ export class SaucesService {
     return this.http
       .post<{
         message: string;
-      }>('http://localhost:3000/api/sauces/' + id + '/like', { userId: this.auth.getUserId(), like: like ? 1 : 0 })
+      }>('/recipe-security/api/sauces/' + id + '/like', { userId: this.auth.getUserId(), like: like ? 1 : 0 })
       .pipe(
         mapTo(like),
         catchError((error) => {
@@ -53,7 +53,7 @@ export class SaucesService {
     return this.http
       .post<{
         message: string;
-      }>('http://localhost:3000/api/sauces/' + id + '/like', { userId: this.auth.getUserId(), like: dislike ? -1 : 0 })
+      }>('/recipe-security/api/sauces/' + id + '/like', { userId: this.auth.getUserId(), like: dislike ? -1 : 0 })
       .pipe(
         map(() => dislike),
         catchError((error) => {
@@ -67,7 +67,7 @@ export class SaucesService {
     formData.append('sauce', JSON.stringify(sauce));
     formData.append('image', image);
     return this.http
-      .post<{ message: string }>('http://localhost:3000/api/sauces', formData)
+      .post<{ message: string }>('/recipe-security/api/sauces', formData)
       .pipe(
         catchError((error) => {
           throw error.error.message;
@@ -80,7 +80,7 @@ export class SaucesService {
       return this.http
         .put<{
           message: string;
-        }>('http://localhost:3000/api/sauces/' + id, sauce)
+        }>('/recipe-security/api/sauces/' + id, sauce)
         .pipe(
           catchError((error) => {
             throw error.error.message;
@@ -93,7 +93,7 @@ export class SaucesService {
       return this.http
         .put<{
           message: string;
-        }>('http://localhost:3000/api/sauces/' + id, formData)
+        }>('/recipe-security/api/sauces/' + id, formData)
         .pipe(
           catchError((error) => {
             throw error.error.message;
@@ -104,7 +104,7 @@ export class SaucesService {
 
   deleteSauce(id: string) {
     return this.http
-      .delete<{ message: string }>('http://localhost:3000/api/sauces/' + id)
+      .delete<{ message: string }>('/recipe-security/api/sauces/' + id)
       .pipe(
         catchError((error) => {
           throw error.error.message;

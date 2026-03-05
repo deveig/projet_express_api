@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
       .pipe(
         tap(() => {
           this.loading.set(false);
-          this.router.navigateByUrl('/sauces');
+          this.router.navigateByUrl('recipe-security/sauces');
         }),
         catchError((error) => {
           this.loading.set(false);

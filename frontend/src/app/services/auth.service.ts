@@ -17,7 +17,7 @@ export class AuthService {
     return this.http
       .post<{
         message: string;
-      }>('http://localhost:3000/api/auth/signup', {
+      }>('/recipe-security/api/auth/signup', {
         email: email,
         password: password,
       })
@@ -41,7 +41,7 @@ export class AuthService {
       .post<{
         userId: string;
         token: string;
-      }>('http://localhost:3000/api/auth/login', {
+      }>('/recipe-security/api/auth/login', {
         email: email,
         password: password,
       })
@@ -49,8 +49,8 @@ export class AuthService {
         tap(({ userId, token }) => {
           this.userId = userId;
           this.authToken = token;
-          localStorage.setItem('userId',JSON.stringify(userId))
-          localStorage.setItem('token', JSON.stringify(token))
+          // localStorage.setItem('userId',JSON.stringify(userId))
+          // localStorage.setItem('token', JSON.stringify(token))
           this.isAuth$.next(true);
         }),
         catchError((error) => {
@@ -63,7 +63,7 @@ export class AuthService {
     this.authToken = '';
     this.userId = '';
     this.isAuth$.next(false);
-    localStorage.clear();
-    this.router.navigate(['/login']);
+    // localStorage.clear();
+    this.router.navigate(['/recipe-security/login']);
   }
 }
