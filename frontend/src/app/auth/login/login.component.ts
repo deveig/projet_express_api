@@ -1,50 +1,56 @@
-import { Component, OnInit, } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { Router, RouterLink } from '@angular/router';
+import { Component, OnInit, signal } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
 import { catchError, EMPTY, tap } from 'rxjs';
-import {MatButtonModule} from '@angular/material/button';
-import {  MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],//MatButtonModule, MatProgressSpinnerModule
+  imports: [ReactiveFormsModule], //MatButtonModule, MatProgressSpinnerModule
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
   loginForm!: FormGroup;
-  loading!: boolean;
+  loading = signal<boolean>(false);
   errorMsg!: string;
 
-  constructor(private formBuilder: FormBuilder,
-              private auth: AuthService,
-              private router: Router) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private auth: AuthService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
-      password: [null, Validators.required]
+      password: [null, Validators.required],
     });
   }
 
   onLogin() {
-    this.loading = true;
+    this.loading.set(true);
     const email = this.loginForm.get('email')!.value;
     const password = this.loginForm.get('password')!.value;
-    this.auth.loginUser(email, password).pipe(
-      tap(() => {
-        this.loading = false;
-        this.router.navigate(['/sauces']);
-      }),
-      catchError(error => {
-        this.loading = false;
-        this.errorMsg = error.message;
-        return EMPTY;
-      })
-    ).subscribe();
+    this.auth
+      .loginUser(email, password)
+      .pipe(
+        tap(() => {
+          this.loading.set(false);
+          this.router.navigateByUrl('/sauces');
+        }),
+        catchError((error) => {
+          this.loading.set(false);
+          this.errorMsg = error;
+          return EMPTY;
+        }),
+      )
+      .subscribe();
   }
-
 }

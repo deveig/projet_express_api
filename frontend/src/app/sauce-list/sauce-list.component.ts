@@ -1,10 +1,9 @@
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { SaucesService } from '../services/sauces.service';
+import { Router } from '@angular/router';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { Sauce } from '../models/Sauce.model';
-import { Router } from '@angular/router';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { SaucesService } from '../services/sauces.service';
 
 @Component({
   standalone: true,

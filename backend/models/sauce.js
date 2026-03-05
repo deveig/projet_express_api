@@ -1,4 +1,6 @@
-import { Schema, model } from "mongoose";
+import { SCHEMA_FIELD_TYPE } from "redis";
+import getCLient from "../connection.js";
+const client = await getCLient();
 
 /**
  * Validate input data and verify it against no injection
@@ -11,44 +13,78 @@ const inputValidator = function (value) {
   } else {
     if (/[='<>\/]/.test(value)) {
       return false;
+    } else {
+        return true;
     }
   }
 };
 
-const sauceSchema = Schema({
-  userId: { type: String },
-  name: {
-    type: String,
-    required: [true, "Please write a name !"],
-    validate: [inputValidator, "Please write a name !"],
-  },
-  manufacturer: {
-    type: String,
-    required: [true, "Please write a manufacturer !"],
-    validate: [inputValidator, "Please write a manufacturer !"],
-  },
-  description: {
-    type: String,
-    required: [true, "Please write a description !"],
-    validate: [inputValidator, "Please write a description !"],
-  },
-  mainPepper: {
-    type: String,
-    required: [true, "Please write the main pepper of the sauce !"],
-    validate: [inputValidator, "Please write the main pepper of the sauce !"],
-  },
-  imageUrl: { type: String },
-  heat: {
-    type: Number,
-    required: [true, "Value of heat must be between 1 and 10 !"],
-    default: 1,
-    min: [1, "Value of heat must be between 1 and 10 !"],
-    max: [10, "Value of heat must be between 1 and 10 !"],
-  },
-  likes: { type: Number, default: 0 },
-  dislikes: { type: Number, default: 0 },
-  usersLiked: { type: [String], default: [] },
-  usersDisliked: { type: [String], default: [] },
-});
-
-export default model("Sauce", sauceSchema);
+export async function getSauceClient() {
+    const list = await client.ft._list();
+    if(list.includes("idx:sauces")){
+        console.log("Index idx:sauces already exists");
+    } else {
+        await client.ft.create(
+        "idx:sauces",
+        {
+            "$.id": {
+                type: SCHEMA_FIELD_TYPE.TEXT,
+                AS: "id"
+            },
+            "$.name": {
+            type: SCHEMA_FIELD_TYPE.TEXT,
+            AS: "name",
+            },
+            "$.manufacturer": {
+            type: SCHEMA_FIELD_TYPE.TEXT,
+            AS: "manufacturer",
+            },
+            "$.description": {
+            type: SCHEMA_FIELD_TYPE.TEXT,
+            AS: "description",
+            },
+            "$.mainPepper": {
+            type: SCHEMA_FIELD_TYPE.TEXT,
+            AS: "mainPepper",
+            },
+            "$.imageUrl": {
+            type: SCHEMA_FIELD_TYPE.TEXT,
+            AS: "imageUrl",
+            },
+            "$.heat": {
+            type: SCHEMA_FIELD_TYPE.NUMERIC,
+            AS: "heat",
+            },
+            "$.likes": {
+            type: SCHEMA_FIELD_TYPE.NUMERIC,
+            AS: "likes",
+            },
+            "$.dislikes": {
+            type: SCHEMA_FIELD_TYPE.NUMERIC,
+            AS: "dislikes",
+            },
+            "$.usersLiked": {
+            type: SCHEMA_FIELD_TYPE.TAG,
+            AS: "usersLiked",
+            },
+            "$.usersDisliked": {
+            type: SCHEMA_FIELD_TYPE.TAG,
+            AS: "usersDisliked",
+            },
+        },
+        {
+            ON: "JSON",
+            PREFIX: "sauce:",
+        },
+        );
+        
+    } 
+    return client;
+}
+export function validateSauce(sauce) {
+    if(inputValidator(sauce.name) && inputValidator(sauce.manufacturer) && inputValidator(sauce.description) && inputValidator(sauce.mainPepper)) {
+        return true;
+    } else {
+        return false;
+    }
+}

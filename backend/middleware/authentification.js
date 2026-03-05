@@ -7,7 +7,7 @@ const  randomKey = process.env.RANDOM_KEY;
 export default (req, res, next) => {
    try {
         const token = req.headers.authorization.split(' ')[1];
-        const decodedToken = jsonWebToken.verify(token, randomKey);
+        const decodedToken = jwt.verify(token, randomKey);
         const userId = decodedToken.userId;
         req.authentification = {
             userId: userId

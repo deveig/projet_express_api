@@ -33,14 +33,14 @@
   <div class="right-nav">
     <ul>
       <li>
-        @if(isAuth$ | async){
+        @if(!(isAuth$ | async)){
           <a routerLink="signup" routerLinkActive="active">
             SIGN UP
           </a>
         }
       </li>
       <li>
-        @if(isAuth$ | async){
+        @if(!(isAuth$ | async)){
           <a routerLink="login" routerLinkActive="active">
             LOGIN
           </a>

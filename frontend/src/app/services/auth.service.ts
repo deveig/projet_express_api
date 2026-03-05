@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -14,10 +14,18 @@ export class AuthService {
   private router: Router = inject(Router);
 
   createUser(email: string, password: string) {
-    return this.http.post<{ message: string }>(
-      'http://back:3000/api/auth/signup',
-      { email: email, password: password },
-    );
+    return this.http
+      .post<{
+        message: string;
+      }>('http://localhost:3000/api/auth/signup', {
+        email: email,
+        password: password,
+      })
+      .pipe(
+        catchError((error) => {
+          throw error.error.message;
+        }),
+      );
   }
 
   getToken() {
@@ -33,12 +41,20 @@ export class AuthService {
       .post<{
         userId: string;
         token: string;
-      }>('http://back:3000/api/auth/login', { email: email, password: password })
+      }>('http://localhost:3000/api/auth/login', {
+        email: email,
+        password: password,
+      })
       .pipe(
         tap(({ userId, token }) => {
           this.userId = userId;
           this.authToken = token;
+          localStorage.setItem('userId',JSON.stringify(userId))
+          localStorage.setItem('token', JSON.stringify(token))
           this.isAuth$.next(true);
+        }),
+        catchError((error) => {
+          throw error.error.message;
         }),
       );
   }
@@ -47,6 +63,7 @@ export class AuthService {
     this.authToken = '';
     this.userId = '';
     this.isAuth$.next(false);
-    this.router.navigate(['login']);
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

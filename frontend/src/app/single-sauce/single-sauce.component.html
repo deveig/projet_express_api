@@ -1,20 +1,20 @@
-@if (loading) {
+@if (loading()) {
   <!-- <mat-spinner></mat-spinner> -->
   <p>Loading sauce...</p>
 }
-@if (sauce$ | async; as sauce) {
+@if (sauce$() | async; as sauce) {
   <div class="sauce-container">
-    <img [src]="sauce?.imageUrl" alt="" />
+    <img [src]="sauce.imageUrl" alt="" />
     <div class="sauce-info">
-      <h1 class="sauce-name">{{ sauce?.name }}</h1>
-      <p class="manufacturer">by {{ sauce?.manufacturer }}</p>
+      <h1 class="sauce-name">{{ sauce.name }}</h1>
+      <p class="manufacturer">by {{ sauce.manufacturer }}</p>
       <h3>Description</h3>
       <p>{{ sauce.description }}</p>
-      @if (!likePending) {
+      @if (!likePending()) {
         <div class="like-buttons">
           <div class="likes">
             <i
-              [class]="{ 'fas liked': liked, far: !liked, disabled: disliked }"
+              [class]="{ fas: liked(), liked: liked(), far: !liked(), disabled: disliked() }"
               class="like fa-thumbs-up fa-lg"
               (click)="onLike()"
             ></i>
@@ -23,9 +23,10 @@
           <div class="dislikes">
             <i
               [class]="{
-                'fas disliked': disliked,
-                far: !disliked,
-                disabled: liked,
+                fas: disliked(),
+                disliked: disliked(),
+                far: !disliked(),
+                disabled: liked(),
               }"
               class="dislike fa-thumbs-down fa-lg"
               (click)="onDislike()"
@@ -41,7 +42,7 @@
       }
       <div class="control-buttons">
         <button mat-raised-button (click)="onBack()">BACK</button>
-        @if (userId === sauce.userId) {
+        @if (userId() === sauce.userId) {
           <button mat-raised-button color="primary" (click)="onModify()">
             MODIFY
           </button>

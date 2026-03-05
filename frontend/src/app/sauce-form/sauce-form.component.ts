@@ -1,58 +1,64 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit, signal } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SaucesService } from '../services/sauces.service';
+import { catchError, EMPTY, switchMap, tap } from 'rxjs';
 import { Sauce } from '../models/Sauce.model';
 import { AuthService } from '../services/auth.service';
-import { catchError, EMPTY, switchMap, tap } from 'rxjs';
-import { MatProgressSpinner, MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatButtonModule } from '@angular/material/button';
+import { SaucesService } from '../services/sauces.service';
 
 @Component({
   standalone: true,
   selector: 'app-sauce-form',
   imports: [ReactiveFormsModule], //MatProgressSpinnerModule, MatButtonModule
   templateUrl: './sauce-form.component.html',
-  styleUrls: ['./sauce-form.component.scss']
+  styleUrls: ['./sauce-form.component.scss'],
 })
 export class SauceFormComponent implements OnInit {
-
   sauceForm!: FormGroup;
   mode!: string;
-  loading!: boolean;
+  loading = signal<boolean>(false);
   sauce!: Sauce;
   errorMsg!: string;
   imagePreview!: string;
 
-  constructor(private formBuilder: FormBuilder,
-              private route: ActivatedRoute,
-              private router: Router,
-              private sauces: SaucesService,
-              private auth: AuthService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private sauces: SaucesService,
+    private auth: AuthService,
+  ) {}
 
   ngOnInit() {
-    this.loading = true;
-    this.route.params.pipe(
-      switchMap(params => {
-        if (!params['id']) {
-          this.mode = 'new';
-          this.initEmptyForm();
-          this.loading = false;
-          return EMPTY;
-        } else {
-          this.mode = 'edit';
-          return this.sauces.getSauceById(params['id'])
-        }
-      }),
-      tap(sauce => {
-        if (sauce) {
-          this.sauce = sauce;
-          this.initModifyForm(sauce);
-          this.loading = false;
-        }
-      }),
-      catchError(error => this.errorMsg = JSON.stringify(error))
-    ).subscribe();
+    this.loading.set(true);
+    this.route.params
+      .pipe(
+        switchMap((params) => {
+          if (!params['id']) {
+            this.mode = 'new';
+            this.initEmptyForm();
+            this.loading.set(false);
+            return EMPTY;
+          } else {
+            this.mode = 'edit';
+            return this.sauces.getSauceById(params['id']);
+          }
+        }),
+        tap((sauce) => {
+          if (sauce) {
+            this.sauce = sauce;
+            this.initModifyForm(sauce);
+            this.loading.set(false);
+          }
+        }),
+        catchError((error) => (this.errorMsg = JSON.stringify(error))),
+      )
+      .subscribe();
   }
 
   initEmptyForm() {
@@ -63,13 +69,11 @@ export class SauceFormComponent implements OnInit {
       image: [null, Validators.required],
       mainPepper: [null, Validators.required],
       heat: [1, Validators.required],
-      heatValue: [{value: 1, disabled: true}]
+      heatValue: [{ value: 1, disabled: true }],
     });
-    this.sauceForm.get('heat')!.valueChanges.subscribe(
-      (value) => {
-        this.sauceForm.get('heatValue')!.setValue(value);
-      }
-    );
+    this.sauceForm.get('heat')!.valueChanges.subscribe((value) => {
+      this.sauceForm.get('heatValue')!.setValue(value);
+    });
   }
 
   initModifyForm(sauce: Sauce) {
@@ -80,59 +84,76 @@ export class SauceFormComponent implements OnInit {
       image: [sauce.imageUrl, Validators.required],
       mainPepper: [sauce.mainPepper, Validators.required],
       heat: [sauce.heat, Validators.required],
-      heatValue: [{value: sauce.heat, disabled: true}]
+      heatValue: [{ value: sauce.heat, disabled: true }],
     });
-    this.sauceForm.get('heat')!.valueChanges.subscribe(
-      (value) => {
-        this.sauceForm.get('heatValue')!.setValue(value);
-      }
-    );
+    this.sauceForm.get('heat')!.valueChanges.subscribe((value) => {
+      this.sauceForm.get('heatValue')!.setValue(value);
+    });
     this.imagePreview = this.sauce.imageUrl;
   }
 
   onSubmit() {
-    this.loading = true;
-    const newSauce = new Sauce();
-    newSauce.name = this.sauceForm.get('name')!.value;
-    newSauce.manufacturer = this.sauceForm.get('manufacturer')!.value;
-    newSauce.description = this.sauceForm.get('description')!.value;
-    newSauce.mainPepper = this.sauceForm.get('mainPepper')!.value;
-    newSauce.heat = this.sauceForm.get('heat')!.value;
-    newSauce.userId = this.auth.getUserId();
+    this.loading.set(true);
+    let newSauce: Sauce = {
+      id: '',
+      name: this.sauceForm.get('name')!.value as string,
+      manufacturer: this.sauceForm.get('manufacturer')!.value as string,
+      description: this.sauceForm.get('description')!.value as string,
+      mainPepper: this.sauceForm.get('mainPepper')!.value as string,
+      heat: this.sauceForm.get('heat')!.value as number,
+      // userId: this.auth.getUserId(),
+      userId: JSON.parse(localStorage.getItem('userId')!),
+      likes: 0,
+      dislikes: 0,
+      imageUrl: '',
+      usersLiked: [],
+      usersDisliked: [],
+    };
     if (this.mode === 'new') {
-      this.sauces.createSauce(newSauce, this.sauceForm.get('image')!.value).pipe(
-        tap(({ message }) => {
-          console.log(message);
-          this.loading = false;
-          this.router.navigate(['/sauces']);
-        }),
-        catchError(error => {
-          console.error(error);
-          this.loading = false;
-          this.errorMsg = error.message;
-          return EMPTY;
-        })
-      ).subscribe();
+      this.sauces
+        .createSauce(newSauce, this.sauceForm.get('image')!.value)
+        .pipe(
+          tap(({ message }) => {
+            console.log(message);
+            this.loading.set(false);
+            this.router.navigate(['/sauces']);
+          }),
+          catchError((error) => {
+            console.error(error);
+            this.loading.set(false);
+            this.errorMsg = error;
+            return EMPTY;
+          }),
+        )
+        .subscribe();
     } else if (this.mode === 'edit') {
-      this.sauces.modifySauce(this.sauce._id, newSauce, this.sauceForm.get('image')!.value).pipe(
-        tap(({ message }) => {
-          console.log(message);
-          this.loading = false;
-          this.router.navigate(['/sauces']);
-        }),
-        catchError(error => {
-          console.error(error);
-          this.loading = false;
-          this.errorMsg = error.message;
-          return EMPTY;
-        })
-      ).subscribe();
+      this.sauces
+        .modifySauce(
+          this.sauce.id,
+          { ...newSauce, id: this.sauce.id, imageUrl: this.sauceForm.get('image')!.value instanceof File ? '' : this.sauce.imageUrl },
+          this.sauceForm.get('image')!.value 
+        )
+        .pipe(
+          tap(({ message }) => {
+            console.log(message);
+            this.loading.set(false);
+            this.router.navigate(['/sauces']);
+          }),
+          catchError((error) => {
+            console.error(error);
+            this.loading.set(false);
+            this.errorMsg = error;
+            return EMPTY;
+          }),
+        )
+        .subscribe();
     }
   }
 
   onFileAdded(event: Event) {
     const file = (event.target as HTMLInputElement).files![0];
     this.sauceForm.get('image')!.setValue(file);
+    console.log(file)
     this.sauceForm.updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () => {

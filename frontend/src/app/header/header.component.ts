@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { Observable, shareReplay } from 'rxjs';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
+import { Component, OnInit, signal } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Observable, shareReplay } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   standalone: true,
@@ -14,8 +14,9 @@ import { AsyncPipe } from '@angular/common';
 export class HeaderComponent implements OnInit {
 
   isAuth$!: Observable<boolean>;
+  logged = signal<boolean>(false);
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.isAuth$ = this.auth.isAuth$.pipe(

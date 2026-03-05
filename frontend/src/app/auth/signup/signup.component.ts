@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
-import { catchError, EMPTY, switchMap, tap } from 'rxjs';
+import { Router, RouterLink } from '@angular/router';
+import { catchError, EMPTY, finalize, NEVER, of, switchMap, tap } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -17,7 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class SignupComponent implements OnInit {
 
   signupForm!: FormGroup;
-  loading!: boolean;
+  loading = signal<boolean>(false);
   errorMsg!: string;
 
   constructor(private formBuilder: FormBuilder,
@@ -32,18 +32,18 @@ export class SignupComponent implements OnInit {
   }
 
   onSignup() {
-    this.loading = true;
+    this.loading.set(true);
     const email = this.signupForm.get('email')!.value;
     const password = this.signupForm.get('password')!.value;
     this.auth.createUser(email, password).pipe(
       switchMap(() => this.auth.loginUser(email, password)),
       tap(() => {
-        this.loading = false;
+        this.loading.set(false);
         this.router.navigate(['/sauces']);
       }),
       catchError((error) => {
-        this.loading = false;
-        this.errorMsg = error.error.error;
+        this.loading.set(false);
+        this.errorMsg = error;
         return EMPTY;
       })
     ).subscribe();
