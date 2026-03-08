@@ -49,8 +49,6 @@ export class AuthService {
         tap(({ userId, token }) => {
           this.userId = userId;
           this.authToken = token;
-          // localStorage.setItem('userId',JSON.stringify(userId))
-          // localStorage.setItem('token', JSON.stringify(token))
           this.isAuth$.next(true);
         }),
         catchError((error) => {
@@ -63,7 +61,6 @@ export class AuthService {
     this.authToken = '';
     this.userId = '';
     this.isAuth$.next(false);
-    // localStorage.clear();
     this.router.navigate(['/recipe-security/login']);
   }
 }

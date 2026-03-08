@@ -3,5 +3,6 @@ WORKDIR /usr/local/app/
 COPY package.json ./
 RUN npm install
 COPY . ./
-EXPOSE 4200
-CMD ["npm", "run", "build"]
+EXPOSE 4000
+RUN npm run build
+CMD ["npm", "run", "serve:ssr:hot-takes"]

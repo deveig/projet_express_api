@@ -26,7 +26,7 @@ app.use(
 app.use('/recipe-security/api', async (req, res) => {
   try {
     const apiUrl = req.originalUrl;
-    const response = await fetch(`http://localhost:3000${apiUrl.split("/recipe-security")[1]}`, {
+    const response = await fetch(`http://back:3000${apiUrl.split("/recipe-security")[1]}`, {
       method: req.method,
       headers: { ...req.headers } as HeadersInit,
       body: req.method === 'GET' ? undefined : req.body,
