@@ -4,9 +4,7 @@ config();
 
 export default async function getClient() {
   const dbUrl = process.env.DB_KEY;
-  const client = createClient({
-    url: dbUrl
-  });
+  const client = createClient();
 
   client.on("error", (err) => console.log("Redis Client Error", err));
 
