@@ -35,8 +35,8 @@
       </div>
     </div>
     <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="sauceForm.invalid">SUBMIT</button>
+    @if(errorMsg){
+      <p class="text-danger">{{errorMsg}}</p>
+    }
   </form>
-  @if(errorMsg){
-    <p class="text-danger">{{errorMsg}}</p>
-  }
 }
