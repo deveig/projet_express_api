@@ -61,6 +61,6 @@ export class AuthService {
     this.authToken = '';
     this.userId = '';
     this.isAuth$.next(false);
-    this.router.navigate(['/recipe-security/login']);
+    this.router.navigate(['/login']);
   }
 }

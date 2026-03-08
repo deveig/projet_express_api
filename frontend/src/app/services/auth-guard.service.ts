@@ -18,7 +18,7 @@ export const authGuard: CanActivateFn = (
     take(1),
     tap((auth) => {
       if (!auth) {
-        router.navigate(['/recipe-security/login']);
+        router.navigate(['/login']);
       }
     }),
   );

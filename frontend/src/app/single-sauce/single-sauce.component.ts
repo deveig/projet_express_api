@@ -83,13 +83,13 @@ export class SingleSauceComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['recipe-security/sauces']);
+    this.router.navigate(['sauces']);
   }
 
   onModify() {
     this.sauce$().pipe(
       take(1),
-      tap(sauce => this.router.navigate(['recipe-security/modify-sauce', sauce.id]))
+      tap(sauce => this.router.navigate(['modify-sauce', sauce.id]))
     ).subscribe();
   }
 
@@ -100,7 +100,7 @@ export class SingleSauceComponent implements OnInit {
       switchMap(sauce => this.sauces.deleteSauce(sauce.id)),
       tap(() => {
         this.loading.set(false);
-        this.router.navigate(['recipe-security/sauces']);
+        this.router.navigate(['sauces']);
       }),
       catchError(error => {
         this.loading.set(false);

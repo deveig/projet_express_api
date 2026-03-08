@@ -37,7 +37,7 @@ export class SignupComponent implements OnInit {
       switchMap(() => this.auth.loginUser(email, password)),
       tap(() => {
         this.loading.set(false);
-        this.router.navigate(['recipe-security/sauces']);
+        this.router.navigate(['sauces']);
       }),
       catchError((error) => {
         this.loading.set(false);

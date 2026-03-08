@@ -2,31 +2,31 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
 import { routes } from './app-routes';
 export const serverRoutes: ServerRoute[] = [
   {
-    path: 'recipe-security',
+    path: '',
     renderMode: RenderMode.Server,
   },
   {
-    path: 'recipe-security/login',
+    path: 'login',
     renderMode: RenderMode.Server,
   },
   {
-    path: 'recipe-security/signup',
+    path: 'signup',
     renderMode: RenderMode.Server,
   },
   {
-    path: 'recipe-security/sauces',
+    path: 'sauces',
     renderMode: RenderMode.Server,
   },
   {
-    path: 'recipe-security/sauce/:id',
+    path: 'sauce/:id',
     renderMode: RenderMode.Server,
   },
   {
-    path: 'recipe-security/new-sauce',
+    path: 'new-sauce',
     renderMode: RenderMode.Server,
   },
   {
-    path: 'recipe-security/modify-sauce/:id',
+    path: 'modify-sauce/:id',
     renderMode: RenderMode.Server,
   }
 ];

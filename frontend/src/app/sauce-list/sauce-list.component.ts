@@ -39,6 +39,6 @@ export class SauceListComponent implements OnInit {
   }
 
   onClickSauce(id: string) {
-    this.router.navigate(['recipe-security/sauce', id]);
+    this.router.navigate(['sauce', id]);
   }
 }
