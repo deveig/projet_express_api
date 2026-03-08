@@ -49,11 +49,11 @@ export function signup(req, res, next) {
                 res.status(201).json({ message: "Your account is created !" });
               })
               .catch((error) => {
-                res.status(500).json({ message: "Internal Error Server" });
+                res.status(500).json({ message: "Internal Server Error" });
               });
           })
           .catch((error) => {
-            res.status(500).json({ message: "Internal Error Server" });
+            res.status(500).json({ message: "Internal Server Error" });
           });
       });
   }
@@ -79,7 +79,7 @@ export function login(req, res, next) {
           });
         })
         .catch((error) => {
-          res.status(500).json({ message: "Internal Error Server" });
+          res.status(500).json({ message: "Internal Server Error" });
         });
     })
     .catch((error) => {

@@ -12,7 +12,7 @@ export function getAllSauces(req, res, next) {
       res.status(200).json(sauces.documents.map((sauce) => sauce.value));
     })
     .catch((error) => {
-      res.status(500).json({ message: "Internal Error Server" });
+      res.status(500).json({ message: "Internal Server Error" });
     });
 }
 
@@ -24,7 +24,7 @@ export function getOneSauce(req, res, next) {
       res.status(200).json(sauce.documents[0].value);
     })
     .catch((error) => {
-      res.status(500).json({ message: "Internal Error Server" });
+      res.status(500).json({ message: "Internal Server Error" });
     });
 }
 
@@ -64,13 +64,13 @@ export async function addSauce(req, res, next) {
     //         res.status(201).json({ message: "Your sauce is added !" });
     //       })
     //       .catch((error) => {
-    //         res.status(500).json({ message: "Internal Error Server" });
+    //         res.status(500).json({ message: "Internal Server Error" });
     //       });
     //   }
     // }
     res.status(400).json({ message: "Portfolio project : no data saved" });
   } catch (error) {
-    res.status(500).json({ message: "Internal Error Server" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
@@ -165,7 +165,7 @@ export async function changeSauce(req, res, next) {
     // }
     res.status(400).json({ message: "Portfolio project : no data saved" });
   } catch (error) {
-    res.status(500).json({ message: "Internal Error Server" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
@@ -189,7 +189,7 @@ export async function deleteSauce(req, res, next) {
     // next();
     res.status(400).json({ message: "Portfolio project : no data saved" });
   } catch (error) {
-    res.status(500).json({ message: "Internal Error Server" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
@@ -227,7 +227,7 @@ export function likeSauce(req, res, next) {
                   res.status(200).json({ message: "You like sauce !" });
                 })
                 .catch((error) => {
-                  res.status(500).json({ message: "Internal Error Server" });
+                  res.status(500).json({ message: "Internal Server Error" });
                 });
             }
             break;
@@ -244,7 +244,7 @@ export function likeSauce(req, res, next) {
                   res.status(200).json({ message: "You don't like sauce !" });
                 })
                 .catch((error) => {
-                  res.status(500).json({ message: "Internal Error Server" });
+                  res.status(500).json({ message: "Internal Server Error" });
                 });
             }
             break;
@@ -275,15 +275,15 @@ export function likeSauce(req, res, next) {
                 res.status(200).json({ message: "Do you like sauce ?" });
               })
               .catch((error) => {
-                res.status(500).json({ message: "Internal Error Server" });
+                res.status(500).json({ message: "Internal Server Error" });
               });
             break;
         }
       })
       .catch((error) => {
-        res.status(500).json({ message: "Internal Error Server" });
+        res.status(500).json({ message: "Internal Server Error" });
       });
   } catch (error) {
-    res.status(500).json({ message: "Internal Error Server" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
