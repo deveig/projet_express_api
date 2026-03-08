@@ -23,7 +23,7 @@ app.use(
   '/recipe-security/api',
   express.raw({ type: '*/*', limit: '10mb' }),
 );
-app.use('/recipe-security/api', async (req, res) => {
+app.use(['/recipe-security/api', '/recipe-security/images'], async (req, res) => {
   try {
     const apiUrl = req.originalUrl;
     const response = await fetch(`http://back:3000${apiUrl.split("/recipe-security")[1]}`, {
