@@ -1,10 +1,10 @@
 import { createClient } from "redis";
-import { config } from 'dotenv';
+import { config } from "dotenv";
 config();
 
 export default async function getClient() {
   const dbUrl = process.env.DB_KEY;
-  const client = createClient();
+  const client = createClient({ socket: { host: "db" } });
 
   client.on("error", (err) => console.log("Redis Client Error", err));
 
