@@ -6,6 +6,7 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { Head } from 'rxjs';
 
 const browserDistFolder = join(
   import.meta.dirname,
@@ -23,9 +24,10 @@ app.use(
   '/recipe-security/api',
   express.raw({ type: '*/*', limit: '10mb' }),
 );
-app.use(['/recipe-security/api', '/recipe-security/images'], async (req, res) => {
+app.use('/recipe-security/api', async (req, res) => {
   try {
     const apiUrl = req.originalUrl;
+    console.log(apiUrl)
     const response = await fetch(`http://back:3000${apiUrl.split("/recipe-security")[1]}`, {
       method: req.method,
       headers: { ...req.headers } as HeadersInit,
@@ -35,6 +37,17 @@ app.use(['/recipe-security/api', '/recipe-security/images'], async (req, res) =>
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch recipe' });
   }
+});
+app.use("/recipe-security/images", async (req, res) => {
+    try {
+        const response = await fetch(`http://back:3000${req.originalUrl.split("/recipe-security")[1]}`, {
+            headers: req.headers as HeadersInit,
+        });
+        const buffer = await response.arrayBuffer();
+        res.status(response.status).send(Buffer.from(buffer));
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch images" });
+    }
 });
 
 /**

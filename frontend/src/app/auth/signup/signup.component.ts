@@ -1,10 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { catchError, EMPTY, switchMap, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { Router, RouterLink } from '@angular/router';
-import { catchError, EMPTY, finalize, NEVER, of, switchMap, tap } from 'rxjs';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   standalone: true,
