@@ -1,6 +1,6 @@
 # Backend
 
-### .env file
+## .env file
 
 Create a .env file with PORT, DB_KEY, DB_NAME and RANDOM_KEY variables.
 
@@ -12,7 +12,7 @@ Initialize variable DB_NAME with string that is the name of the database.
 
 Initialize variable RANDOM_KEY with string of your choice.
 
-### GithubActions and Docker
+## GithubActions and Docker
 
 ## Images folder
 
