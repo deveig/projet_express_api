@@ -44,7 +44,7 @@
           "options": {
             "outputPath": {
               "base": "dist/hot-takes",
-              "browser": "recipe-security",
+              "browser": "security",
               "server": "server"
             },
             "browser": "src/main.ts",

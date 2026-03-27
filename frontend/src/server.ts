@@ -9,7 +9,7 @@ import { join } from 'node:path';
 
 const browserDistFolder = join(
   import.meta.dirname,
-  '../recipe-security/',
+  '../security/',
 );
 
 const app = express();
@@ -20,13 +20,13 @@ const angularApp = new AngularNodeAppEngine();
  *
  */
 app.use(
-  '/recipe-security/api',
+  '/security/api',
   express.raw({ type: '*/*', limit: '10mb' }),
 );
-app.use('/recipe-security/api', async (req, res) => {
+app.use('/security/api', async (req, res) => {
   try {
     const apiUrl = req.originalUrl;
-    const response = await fetch(`http://back:3000${apiUrl.split("/recipe-security")[1]}`, {
+    const response = await fetch(`http://back:3000${apiUrl.split("/security")[1]}`, {
       method: req.method,
       headers: { ...req.headers } as HeadersInit,
       body: req.method === 'GET' ? undefined : req.body,
@@ -36,9 +36,9 @@ app.use('/recipe-security/api', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch recipe' });
   }
 });
-app.use("/recipe-security/images", async (req, res) => {
+app.use("/security/images", async (req, res) => {
     try {
-        const response = await fetch(`http://back:3000${req.originalUrl.split("/recipe-security")[1]}`, {
+        const response = await fetch(`http://back:3000${req.originalUrl.split("/security")[1]}`, {
             headers: req.headers as HeadersInit,
         });
         const buffer = await response.arrayBuffer();
