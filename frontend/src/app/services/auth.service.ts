@@ -17,7 +17,7 @@ export class AuthService {
     return this.http
       .post<{
         message: string;
-      }>('/recipe-security/api/auth/signup', {
+      }>('/security/api/auth/signup', {
         email: email,
         password: password,
       })
@@ -41,7 +41,7 @@ export class AuthService {
       .post<{
         userId: string;
         token: string;
-      }>('/recipe-security/api/auth/login', {
+      }>('/security/api/auth/login', {
         email: email,
         password: password,
       })
